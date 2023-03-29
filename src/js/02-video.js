@@ -7,13 +7,13 @@ const iFrameEl = document.querySelector('#vimeo-player');
 const vimeoPlayer = new Player(iFrameEl);
 
 vimeoPlayer.on('timeupdate', throttle(onTimeUpdate, 1000));
-vimeoPlayer.on('play', onPlay);
 
-function onTimeUpdate(event){
-  // console.log('timeupdate', event.seconds);
-  localStorage.setItem(CURRENT_TIME_KEY, event.seconds);
+if(localStorage.getItem(CURRENT_TIME_KEY)) {
+  vimeoPlayer.setCurrentTime(localStorage.getItem(CURRENT_TIME_KEY));
+} else {
+  vimeoPlayer.setCurrentTime(0);
 }
 
-function onPlay() {
-  vimeoPlayer.setCurrentTime(localStorage.getItem(CURRENT_TIME_KEY));
+function onTimeUpdate(event){
+  localStorage.setItem(CURRENT_TIME_KEY, event.seconds);
 }
